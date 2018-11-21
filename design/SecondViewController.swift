@@ -8,35 +8,24 @@
 
 import UIKit
 
-class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    @IBOutlet weak var SecondTableView: UITableView!
+class SecondViewController: UIViewController {
     
+    @IBOutlet weak var DataPicker: UIDatePicker!
     
-    let listForSecond = [
-        "Установить место прибытия",
-        "Установить время прибытия",
-        "Установить время на сборы",
-        "Установить место подъема",
-        "Поставить будильник!"
-    ]
+    @IBOutlet weak var PrepareTimeTextField: UITextField!
+    
+    @IBAction func OnTouchUpInside(_ sender: Any) {
+          //ViewControllsHolder.sharedInstance.MainTableView.add
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        SecondTableView.dataSource = self
-        SecondTableView.delegate = self
-        SecondTableView.register(UINib.init(nibName: "SecondTableViewCell", bundle: nil), forCellReuseIdentifier: "secondCell")
+
+        
+        ViewControllsHolder.sharedInstance.DataPicker = DataPicker;
+        ViewControllsHolder.sharedInstance.PrepareTimeTextField = PrepareTimeTextField;
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listForSecond.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "secondCell", for: indexPath) as! SecondTableViewCell
-        cell.LabelForSecond.text = String(listForSecond[indexPath.row])
-        return cell
-    }
 
     /*
     // MARK: - Navigation
