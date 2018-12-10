@@ -15,9 +15,9 @@ import UIKit
 struct Alarm {
     
     var arrivingplace = "Бауманка"
-    var arrivingtimehours = 13
+    var arrivingtimehours = 15
     var arrivingtimemin = 40
-    var timeforfees = 40
+    var timeforfees = 14
     var getuptimehours = 0
     var getuptimemin = 0
     var getupplace = ""

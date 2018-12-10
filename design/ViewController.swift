@@ -9,25 +9,32 @@
 import UIKit
 import UserNotifications
 
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
     
-    @IBOutlet weak var MainTableView: UITableView!
+    @IBAction func NewAlarm(_ sender: UIButton) {
+            performSegue(withIdentifier: "toSecond", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let SecondVC = segue.destination as! SecondViewController
+        SecondVC.DataDelegate = self
+    }
     
     let songName = "s.caf"
     
     var alarms = [Alarm]()
-    
+
     let list: [String: Any] = [
         "arrivingplace": "Бауманка",
-        "arrivingtimehours": 14,
-        "arrivingtimemin": 40,
-        "timeforfees": 40,
+        "arrivingtimehours": 15,
+        "arrivingtimemin": 43   ,
+        "timeforfees": 1,
         "getuptimehours": 12,
         "getuptimemin": 10,
         "getupplace": "home"
     ]
-    //локальная индентификация
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return alarms.count
@@ -51,20 +58,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return 90
     }
     
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         full()
-        MainTableView.dataSource = self
-        MainTableView.delegate = self
-        MainTableView.register(UINib.init(nibName: "cell", bundle: nil), forCellReuseIdentifier: "alarmcell")
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UINib.init(nibName: "cell", bundle: nil), forCellReuseIdentifier: "alarmcell")
+        testTime()
         
-        ViewControllsHolder.sharedInstance.MainTableView = MainTableView
-        
-        //testTime()
     }
     
     func testTime() {
-        
         //callback, который запустится после того, как придет ответ
         let callback = { (time: Int) -> Void in
             if time == -1 {
@@ -82,39 +89,37 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let travelManager = TravelManager(callback: callback)
         let myAdress = "55.683494,37.528046"
         let secondAdress = "55.685939,37.532917"
+        //время на сборы в минутах
+        let timeForPacking = 2
         
         //внутри этого метода выполнится коллбэк, объявленный ранее
-        travelManager.getTravelTime(origin: myAdress, destination: secondAdress, mode: TravelModes.transit)
+        travelManager.getTravelTime(origin: myAdress, destination: secondAdress, mode: TravelModes.transit, additionalMinutes: timeForPacking)
     }
     
-    //перевод полученных из апи секунд за вычетом времени в пути и времени на сборы в нужный формат
+    //перевод полученных из апи секунд + времени на сборы в нужный формат
     func getDateForPush(seconds: Int) -> DateComponents {
-        let additionalMinutes = Int(ViewControllsHolder.sharedInstance.PrepareTimeTextField.text!)!
-        let desiredDate = ViewControllsHolder.sharedInstance.DataPicker.date //получаем дату с датапикер
-        let desiredDateWithoutTravelTime = Calendar.current.date(byAdding: .second, value: -seconds, to: desiredDate)!
-        let desiredDateWithoutTravelTimeAndPrepareTime = Calendar.current.date(byAdding: .second, value: -additionalMinutes*60, to: desiredDateWithoutTravelTime)!
-        
+        let now = Date()
+        let newDate =  Calendar.current.date(byAdding: .second, value: seconds, to: now)
         let unitFlags:Set<Calendar.Component> = [
             .hour, .day, .month,
             .year,.minute,.hour,.second,
             .calendar]
-        let dateComponents = Calendar.current.dateComponents(unitFlags, from: desiredDateWithoutTravelTimeAndPrepareTime)
-        
+        let dateComponents = Calendar.current.dateComponents(unitFlags, from: newDate!)
         return dateComponents
     }
     
-//    //просто функция, которая вызовет пуш через минуту. Нам она не нужна
-//    @IBAction func touchPushButton(_ sender: UIButton) {
-//        let now = Date()
-//        let calendar = Calendar.current
-//        let hour = calendar.component(.hour, from: now)
-//        let minutes = calendar.component(.minute, from: now)
-//        //запускаем будильник через минуту
-//        var date = DateComponents()
-//        date.hour = hour
-//        date.minute = minutes + 1
-//        firePush(at: date)
-//    }
+    //просто функция, которая вызовет пуш через минуту. Нам она не нужна
+    @IBAction func touchPushButton(_ sender: UIButton) {
+        let now = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: now)
+        let minutes = calendar.component(.minute, from: now)
+        //запускаем будильник через минуту
+        var date = DateComponents()
+        date.hour = hour
+        date.minute = minutes + 1
+        firePush(at: date)
+    }
     
     //ставим пуш на нужное время
     func firePush(at date: DateComponents?) {
@@ -129,8 +134,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let request = UNNotificationRequest(identifier: "alarm", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
+    
+}
 
-    
-    
-    
+extension ViewController: dataToFirst{
+    func SaveData(list: Alarm)  {
+        alarms.append(list)
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 }
