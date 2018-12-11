@@ -121,6 +121,7 @@ class SecondViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         performSegue(withIdentifier: "segue", sender: self)
             
         }
+       
         if (myIndex == 1) || (myIndex == 2) {
             performSegue(withIdentifier: "toMapView", sender: self)
         }
@@ -129,25 +130,25 @@ class SecondViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     func recivieData(data: String){
     self.list2["transport"] = data
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "segue" {
-//            let destinationVC = segue.destination as! TransportViewController
-//            destinationVC.delegate = self
-//        }
-//
-//    }
+
     
     func takeCoor(data: String) {
         self.list2["arrivingplace"] = data
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toMapView" {
             let destinationVC = segue.destination as! MapViewController
             destinationVC.delegate = self
         }
+        if segue.identifier == "segue" {
+            let destinationVC = segue.destination as! TransportViewController
+            destinationVC.delegate = self
+        }
+  
+        
     
-    
+    }
 }
-}
+
