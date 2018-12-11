@@ -21,6 +21,7 @@ struct Alarm {
     var getuptimehours = 0
     var getuptimemin = 0
     var getupplace = ""
+    var transport = ""
 }
 
 extension Alarm {
@@ -33,7 +34,8 @@ extension Alarm {
             let timeforfees = dict["timeforfees"] as? Int,
             let getuptimehours = dict["getuptimehours"] as? Int,
             let getuptimemin = dict["getuptimemin"] as? Int,
-            let getupplace = dict["getupplace"] as? String
+            let getupplace = dict["getupplace"] as? String,
+            let transport = dict["transport"] as? String
             else { return nil }
         
         self.arrivingplace = arrivingplace
@@ -43,5 +45,6 @@ extension Alarm {
         self.getuptimehours = getuptimehours
         self.getuptimemin = getuptimemin
         self.getupplace = getupplace
+        self.transport = transport
     }
 }

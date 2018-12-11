@@ -12,7 +12,7 @@ protocol dataToFirst {
     func SaveData(list: Alarm)
 }
 
-class SecondViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource{
+class SecondViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource, choseTransport, Coordinates{
     
     var DataDelegate: dataToFirst!
     
@@ -23,7 +23,8 @@ class SecondViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         "timeforfees": 1,
         "getuptimehours": 12,
         "getuptimemin": 10,
-        "getupplace": "home"
+        "getupplace": "home",
+        "transport":""
     ]
     
     @IBOutlet weak var hours: UIPickerView!
@@ -118,7 +119,35 @@ class SecondViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         myIndex = indexPath.row
         if myIndex == 3{
         performSegue(withIdentifier: "segue", sender: self)
+            
+        }
+        if (myIndex == 1) || (myIndex == 2) {
+            performSegue(withIdentifier: "toMapView", sender: self)
+        }
     }
+    
+    func recivieData(data: String){
+    self.list2["transport"] = data
     }
-
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "segue" {
+//            let destinationVC = segue.destination as! TransportViewController
+//            destinationVC.delegate = self
+//        }
+//
+//    }
+    
+    func takeCoor(data: String) {
+        self.list2["arrivingplace"] = data
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toMapView" {
+            let destinationVC = segue.destination as! MapViewController
+            destinationVC.delegate = self
+        }
+    
+    
+}
 }

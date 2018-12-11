@@ -126,6 +126,7 @@
                         <outlet property="TableView" destination="eUu-Qh-KXm" id="3Fm-Up-ezh"/>
                         <outlet property="hours" destination="kzV-OD-L3f" id="m1u-39-7MN"/>
                         <segue destination="Box-TP-CFB" kind="show" identifier="segue" id="dRR-nJ-uBy"/>
+                        <segue destination="Rjb-Sv-Sf7" kind="show" identifier="toMapView" id="Kdt-Yf-Ody"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xfO-Q2-2gM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -194,11 +195,68 @@
                     </view>
                     <navigationItem key="navigationItem" title="Транспорт" id="oP0-VY-uuk">
                         <barButtonItem key="backBarButtonItem" title="Отменить" id="KSr-bH-heR"/>
+                        <barButtonItem key="rightBarButtonItem" title="Готово" id="rSl-br-qhZ">
+                            <connections>
+                                <action selector="CompleteButton:" destination="Box-TP-CFB" id="TY2-ux-FM7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tP3-Qt-FYd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4428" y="129.98500749625188"/>
+            <point key="canvasLocation" x="4631" y="-63"/>
+        </scene>
+        <!--Карта-->
+        <scene sceneID="mqB-e0-kSv">
+            <objects>
+                <viewController id="Rjb-Sv-Sf7" customClass="MapViewController" customModule="design" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bTy-3x-Dpj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zm4-Eb-uaP">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Rjb-Sv-Sf7" id="iqy-Gk-9Vn"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BQS-LF-JeD">
+                                <rect key="frame" x="289" y="617" width="48" height="30"/>
+                                <color key="backgroundColor" red="0.14320272840000001" green="0.14320272840000001" blue="0.14320272840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Готово">
+                                    <color key="titleColor" red="1" green="0.49595150119999998" blue="0.10785564340000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="0.14320272840000001" green="0.14320272840000001" blue="0.14320272840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonOk:" destination="Rjb-Sv-Sf7" eventType="touchUpInside" id="Sec-vf-m3S"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="zm4-Eb-uaP" firstAttribute="top" secondItem="AdO-Wj-s89" secondAttribute="top" id="7QN-pr-43I"/>
+                            <constraint firstItem="AdO-Wj-s89" firstAttribute="bottom" secondItem="BQS-LF-JeD" secondAttribute="bottom" constant="20" id="FPe-Zf-PNV"/>
+                            <constraint firstItem="AdO-Wj-s89" firstAttribute="trailing" secondItem="BQS-LF-JeD" secondAttribute="trailing" constant="38" id="KJ2-q4-165"/>
+                            <constraint firstItem="zm4-Eb-uaP" firstAttribute="leading" secondItem="AdO-Wj-s89" secondAttribute="leading" id="e5t-Ad-hAm"/>
+                            <constraint firstItem="zm4-Eb-uaP" firstAttribute="trailing" secondItem="AdO-Wj-s89" secondAttribute="trailing" id="hx1-aT-zPs"/>
+                            <constraint firstItem="zm4-Eb-uaP" firstAttribute="bottom" secondItem="AdO-Wj-s89" secondAttribute="bottom" id="jZD-iT-rF8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="AdO-Wj-s89"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Карта" id="oBe-62-gzi">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="5X2-7g-nQ1">
+                            <connections>
+                                <action selector="searchButton:" destination="Rjb-Sv-Sf7" id="5Q2-Wg-xAT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="myMapView" destination="zm4-Eb-uaP" id="xY0-D6-8eB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vUD-xt-5Pg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4772" y="687"/>
         </scene>
     </scenes>
 </document>

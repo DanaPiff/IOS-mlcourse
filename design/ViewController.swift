@@ -33,7 +33,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         "timeforfees": 1,
         "getuptimehours": 12,
         "getuptimemin": 10,
-        "getupplace": "home"
+        "getupplace": "home",
+        "transport": ""
     ]
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

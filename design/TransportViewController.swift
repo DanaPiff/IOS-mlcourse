@@ -8,17 +8,24 @@
 
 import UIKit
 
+protocol choseTransport {
+    func recivieData(data: String )
+}
+
 class TransportViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var delegate:choseTransport!
     
-    
+
     let transportList = [
         "Автомобиль",
         "Общественный транспорт",
         "Велосипед",
         "Пешком",
         ]
-
+    
+    var choseTrans = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,18 +44,25 @@ class TransportViewController: UIViewController, UITableViewDelegate, UITableVie
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark
         {
-            print(indexPath.row)
+            choseTrans = transportList[indexPath.row]
         }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
     }
-
+    
+    @IBAction func CompleteButton(_ sender: Any) {
+        print(choseTrans)
+        delegate?.recivieData(data: choseTrans)
+        self.navigationController?.popViewController(animated: true)
+        //self.dismiss(animated: true, completion: nil)
+    }
+    
  
 
 }
